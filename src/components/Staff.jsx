@@ -131,9 +131,9 @@ export function Staff({ clef, note, triad, highlightIndex = -1, animKey }) {
     <div className="staff-container">
       <svg
         viewBox="0 0 420 160"
-        width={420}
-        height={160}
+        width="100%"
         className="staff-svg"
+        style={{ maxWidth: 420 }}
         overflow="visible"
       >
         {STAFF_LINES.map((i) => (

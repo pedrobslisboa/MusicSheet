@@ -32,12 +32,6 @@ export function GameCard({
   const showAnswerGrid = showGameArea && !showPiano
   const showAccidentals = level === 'inter' && showGameArea
 
-  const keyHint = showPiano
-    ? 'clique na tecla do piano correspondente'
-    : solfejo
-    ? 'Dó Ré Mi Fá Sol Lá Si · clique nos botões'
-    : 'teclas A B C D E F G · clique nos botões'
-
   return (
     <div className={cardClass}>
       <span className="clef-label">
@@ -103,7 +97,6 @@ export function GameCard({
         />
       )}
 
-      {showGameArea && <div className="key-hint">{keyHint}</div>}
 
       {timerPhase === 'result' && (
         <TimerResult
