@@ -67,6 +67,13 @@ async function testPageLoad() {
       assert(visible, 'Staff SVG is not visible')
     })
 
+    await test('note renders on initial load (ellipse present in SVG)', async () => {
+      const ellipseCount = await page.evaluate(() =>
+        document.querySelectorAll('.staff-svg ellipse').length
+      )
+      assert(ellipseCount > 0, `No note ellipse in staff SVG on initial load (got ${ellipseCount})`)
+    })
+
     await test('stats bar shows 0 correct, 0 total', async () => {
       const values = await page.$$eval('.stat-value', (els) =>
         els.map((el) => el.textContent.trim())
