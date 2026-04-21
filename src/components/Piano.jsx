@@ -6,9 +6,9 @@ export function Piano({ clef, currentNote, waiting, onAnswer }) {
   const totalWhite = 14
   const viewW = totalWhite * 26
   const ww = viewW / totalWhite
-  const wh = 80
+  const wh = 110
   const bw = ww * 0.6
-  const bh = wh * 0.62
+  const bh = wh * 0.6
 
   const targetMidi = currentNote
     ? noteToMidi(currentNote.name, currentNote.acc, currentNote.octave)

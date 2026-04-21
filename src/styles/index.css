@@ -609,3 +609,159 @@ header p {
 }
 
 .res-btn.primary:hover { background: #c9a84c2e; }
+
+/* ── Mobile responsive ────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  body {
+    padding: 1.2rem 0.75rem;
+  }
+
+  header {
+    margin-bottom: 1.5rem;
+  }
+
+  /* Stats */
+  .stats-bar {
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.2rem;
+    width: 100%;
+  }
+
+  /* Card */
+  .card {
+    padding: 1.2rem 1rem;
+  }
+
+  /* Staff — just let the SVG scale, reduce margin */
+  .staff-container {
+    min-height: 120px;
+    margin: 0.5rem 0 1rem;
+  }
+
+  /* Answer buttons — bigger touch targets */
+  .answer-btn {
+    padding: 1rem 0.2rem;
+    font-size: 1.1rem;
+    min-height: 52px;
+  }
+
+  .answer-btn.chord-btn {
+    padding: 0.75rem 0.15rem !important;
+    font-size: 0.68rem !important;
+    min-height: 52px;
+  }
+
+  .answer-btn.solfejo {
+    font-size: 0.82rem;
+    padding: 1rem 0.1rem;
+  }
+
+  /* Accidentals */
+  .accidental-row {
+    gap: 0.5rem;
+  }
+
+  .acc-btn {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.9rem;
+    min-height: 48px;
+    flex: 1;
+    text-align: center;
+  }
+
+  /* Settings — 2 per row, taller */
+  .settings {
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .setting-btn {
+    padding: 0.75rem 0.8rem;
+    font-size: 0.65rem;
+    min-height: 44px;
+    flex: 1 1 calc(50% - 0.4rem);
+    text-align: center;
+  }
+
+  /* Timer section */
+  .timer-bar {
+    margin-top: 0.75rem;
+  }
+
+  .timer-goals .setting-btn {
+    flex: 1;
+    min-height: 44px;
+  }
+
+  /* Streak */
+  .streak {
+    margin-top: 0.8rem;
+  }
+
+  /* Weight bar */
+  .weight-bar {
+    margin-bottom: 0.8rem;
+  }
+
+  /* Progress bar */
+  .progress-bar-wrap {
+    margin-bottom: 1rem;
+  }
+
+  /* Timer start prompt */
+  .tsp-duration {
+    font-size: 2.8rem;
+  }
+
+  .tsp-btn {
+    min-height: 52px;
+    padding: 0.8rem 2rem;
+  }
+
+  /* Timer HUD */
+  .timer-elapsed {
+    font-size: 1.1rem;
+    min-width: 3rem;
+  }
+
+  .timer-remaining {
+    min-width: 4.5rem;
+    font-size: 0.6rem;
+  }
+
+  /* Timer result */
+  .res-val {
+    font-size: 1.3rem;
+  }
+
+  .res-btn {
+    padding: 0.8rem 1rem;
+    min-height: 48px;
+  }
+
+  /* Countdown */
+  .countdown-num {
+    font-size: 4rem;
+  }
+}
+
+/* Extra small (< 380px — iPhone SE etc.) */
+@media (max-width: 380px) {
+  .card {
+    padding: 1rem 0.75rem;
+  }
+
+  .answer-btn {
+    font-size: 1rem;
+  }
+
+  .stats-bar {
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+  }
+}

@@ -103,7 +103,7 @@ export function GameCard({
         />
       )}
 
-      {showGameArea && <div className="key-hint">{keyHint}</div>}
+      {showGameArea && !showPiano && <div className="key-hint">{keyHint}</div>}
 
       {timerPhase === 'result' && (
         <TimerResult
