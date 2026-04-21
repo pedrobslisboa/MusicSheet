@@ -67,7 +67,7 @@ export function useGameState() {
         waiting: false,
         selectedAcc: '',
         feedback: { msg: feedbackMsg, type: feedbackType },
-        noteKey: Symbol(),
+        noteKey: (prev.noteKey ?? 0) + 1,
       }))
     } else {
       const pool = getPool(s.clef, s.level)
@@ -84,7 +84,7 @@ export function useGameState() {
         waiting: false,
         selectedAcc: '',
         feedback: { msg: '', type: '' },
-        noteKey: Symbol(),
+        noteKey: (prev.noteKey ?? 0) + 1,
       }))
     }
   }, [])
@@ -147,7 +147,7 @@ export function useGameState() {
                 selectedAcc: '',
                 flashCard: null,
                 feedback: { msg: `Identifique a nota ${nextIdx + 1} de 3`, type: 'hint' },
-                noteKey: Symbol(),
+                noteKey: (prev.noteKey ?? 0) + 1,
               }))
             }, 700)
 
@@ -321,7 +321,7 @@ export function useGameState() {
   // ── Timer ─────────────────────────────────────────────────────────────────
 
   const finishTimerRound = useCallback(() => {
-    clearInterval(timerIntervalRef.current)
+    clearTimeout(timerIntervalRef.current)
     setState((s) => {
       const pct = s.timerCount > 0 ? Math.round(s.timerCorrect / s.timerCount * 100) : 0
       const notesPerMin = (s.timerCorrect / s.timerDuration * 60).toFixed(1)
@@ -341,7 +341,7 @@ export function useGameState() {
   }, [])
 
   const startTimerRound = useCallback((duration) => {
-    clearInterval(timerIntervalRef.current)
+    clearTimeout(timerIntervalRef.current)
     clearTimeout(countdownTimeoutRef.current)
     setState((s) => ({
       ...s,
@@ -359,11 +359,7 @@ export function useGameState() {
     const tick = () => {
       current--
       if (current < 0) {
-        // GO
-        setState((prev) => ({
-          ...prev,
-          countdownNum: 0, // 0 = "GO!"
-        }))
+        setState((prev) => ({ ...prev, countdownNum: 0 }))
         countdownTimeoutRef.current = setTimeout(() => {
           setState((prev) => {
             const end = Date.now() + prev.timerDuration * 1000
@@ -376,14 +372,11 @@ export function useGameState() {
               timerPhase: 'running',
             }
             nextNote(next)
-            timerIntervalRef.current = setInterval(() => {
-              setState((inner) => {
-                if (Date.now() >= inner.timerEnd) {
-                  finishTimerRound()
-                }
-                return inner
-              })
-            }, 100)
+            // Use a single timeout to end the round at the right time
+            timerIntervalRef.current = setTimeout(
+              () => finishTimerRound(),
+              prev.timerDuration * 1000
+            )
             return next
           })
         }, 600)
@@ -396,7 +389,7 @@ export function useGameState() {
   }, [nextNote, finishTimerRound])
 
   const stopTimerMode = useCallback(() => {
-    clearInterval(timerIntervalRef.current)
+    clearTimeout(timerIntervalRef.current)
     clearTimeout(countdownTimeoutRef.current)
     setState((s) => {
       const next = {
@@ -444,7 +437,7 @@ export function useGameState() {
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      clearInterval(timerIntervalRef.current)
+      clearTimeout(timerIntervalRef.current)
       clearTimeout(countdownTimeoutRef.current)
     }
   }, [])
