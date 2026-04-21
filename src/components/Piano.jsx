@@ -20,15 +20,7 @@ export function Piano({ clef, currentNote, waiting, onAnswer }) {
     for (const name of WHITE_PATTERN) {
       const midi = noteToMidi(name, '', oct)
       const isTarget = waiting && midi === targetMidi
-      whiteKeys.push({
-        x: wIdx * ww,
-        midi,
-        name,
-        oct,
-        fill: isTarget
-          ? (targetMidi === noteToMidi(currentNote.name, currentNote.acc, currentNote.octave) ? '#e8c97a' : '#e8e0d0')
-          : '#e8e0d0',
-      })
+      whiteKeys.push({ x: wIdx * ww, midi, name, oct, isTarget })
       wIdx++
     }
   }
@@ -36,20 +28,13 @@ export function Piano({ clef, currentNote, waiting, onAnswer }) {
   const blackKeys = []
   for (let oct = startOctave; oct <= endOctave; oct++) {
     for (const [key, offset] of Object.entries(BLACK_OFFSETS)) {
-      const kName = key[0]
-      const midi = noteToMidi(kName, '#', oct)
       const x = ((oct - startOctave) * 7 + offset) * ww
-      blackKeys.push({ x, midi, name: kName, acc: '#', oct, fill: '#1a1510' })
+      blackKeys.push({ x })
     }
   }
 
-  const handleWhiteClick = (name, oct) => {
+  const handleClick = (name, oct) => {
     if (!waiting) onAnswer(name, '', oct)
-  }
-
-  const handleBlackClick = (name, oct, e) => {
-    e.stopPropagation()
-    if (!waiting) onAnswer(name, '#', oct)
   }
 
   return (
@@ -67,13 +52,14 @@ export function Piano({ clef, currentNote, waiting, onAnswer }) {
             width={ww - 1.6}
             height={wh}
             rx={2}
-            fill={k.fill}
+            fill={k.isTarget ? '#e8c97a' : '#e8e0d0'}
             stroke="#3a3228"
             strokeWidth={1}
             style={{ cursor: waiting ? 'default' : 'pointer' }}
-            onClick={() => handleWhiteClick(k.name, k.oct)}
+            onClick={() => handleClick(k.name, k.oct)}
           />
         ))}
+        {/* Black keys are visual only — pointer events pass through to white keys below */}
         {blackKeys.map((k, i) => (
           <rect
             key={i}
@@ -82,11 +68,10 @@ export function Piano({ clef, currentNote, waiting, onAnswer }) {
             width={bw}
             height={bh}
             rx={2}
-            fill={k.fill}
+            fill="#1a1510"
             stroke="#0a0806"
             strokeWidth={1}
-            style={{ cursor: waiting ? 'default' : 'pointer' }}
-            onClick={(e) => handleBlackClick(k.name, k.oct, e)}
+            pointerEvents="none"
           />
         ))}
       </svg>
